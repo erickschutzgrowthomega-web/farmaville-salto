@@ -1,15 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Check,
+  Cookie,
   Cross,
   Instagram,
   MapPin,
   MessageCircle,
   Navigation,
   Phone,
+  ShieldCheck,
   Smartphone,
   Truck,
 } from "lucide-react";
+import { openCookieSettings } from "../lib/consent";
 import locationMap from "../assets/farma-ville-map.jpg";
 
 export const Route = createFileRoute("/")({
@@ -165,6 +168,18 @@ function Index() {
             <a href="https://instagram.com/farmaville.brasil" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 font-semibold text-brand-deep"><Instagram className="size-4" aria-hidden="true" />@farmaville.brasil</a>
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-whatsapp px-5 py-2.5 font-semibold text-primary-foreground hover:bg-whatsapp-deep"><MessageCircle className="size-4" aria-hidden="true" /> WhatsApp</a>
           </div>
+        </div>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-glass-strong pt-6 text-xs font-semibold text-ink/55">
+          <Link to="/privacidade" className="inline-flex items-center gap-2 transition hover:text-brand-deep">
+            <ShieldCheck className="size-4" aria-hidden="true" /> Política de privacidade
+          </Link>
+          <button
+            type="button"
+            onClick={openCookieSettings}
+            className="inline-flex items-center gap-2 transition hover:text-brand-deep"
+          >
+            <Cookie className="size-4" aria-hidden="true" /> Configurações de privacidade
+          </button>
         </div>
       </footer>
 
