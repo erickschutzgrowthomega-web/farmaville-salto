@@ -98,9 +98,7 @@ export function trackOutboundClicks(): void {
       const anchor = (event.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (!anchor) return;
       const href = anchor.href ?? "";
-      if (!/(^|\.)wa\.me\/|api\.whatsapp\.com\//i.test(new URL(href).hostname + new URL(href).pathname)) {
-        return;
-      }
+      if (!/wa\.me\/|api\.whatsapp\.com\//i.test(href)) return;
       const label =
         (anchor.getAttribute("aria-label") || anchor.textContent || "")
           .replace(/\s+/g, " ")
