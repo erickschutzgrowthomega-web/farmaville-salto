@@ -17,8 +17,7 @@ import {
 } from "./consent";
 
 /** Paste the container id here (looks like GTM-XXXXXXX). Left empty until it is provided. */
-const GTM_CONTAINER_ID =
-  (import.meta.env.VITE_GTM_CONTAINER_ID as string | undefined)?.trim() ?? "";
+const GTM_CONTAINER_ID = (import.meta.env["VITE_GTM_CONTAINER_ID"] as string | undefined)?.trim() ?? "";
 
 type DataLayer = unknown[];
 
