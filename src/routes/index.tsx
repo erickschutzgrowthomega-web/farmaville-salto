@@ -10,7 +10,6 @@ import {
   Smartphone,
   Truck,
 } from "lucide-react";
-import pharmacyInterior from "../assets/farma-ville-interior.jpg";
 import locationMap from "../assets/farma-ville-map.jpg";
 
 export const Route = createFileRoute("/")({
@@ -87,42 +86,30 @@ function Index() {
       </header>
 
       <main id="inicio">
-        <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-6 sm:px-8 sm:py-16 lg:grid-cols-12">
-          <div className="lg:col-span-6">
-            <p className="inline-flex items-center gap-2 rounded-full border border-glass-strong bg-glass px-3.5 py-1.5 text-xs font-semibold text-brand-deep shadow-sm backdrop-blur-xl">
-              <span className="size-1.5 rounded-full bg-whatsapp" aria-hidden="true" /> Farmácia local · Salto, SP
-            </p>
-            <h1 className="mt-6 max-w-xl font-display text-5xl font-medium leading-[1.02] sm:text-6xl">
-              Farma Ville: sua <em className="font-medium text-brand-deep">farmácia</em> em Salto
-            </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink/70">
-              Atendimento, praticidade e opção de delivery para você cuidar da sua saúde sem complicação.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 rounded-full bg-whatsapp px-7 py-4 font-semibold text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-whatsapp-deep">
-                <MessageCircle className="size-5" aria-hidden="true" /> Falar pelo WhatsApp
-              </a>
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 rounded-full border border-glass-strong bg-glass px-7 py-4 font-semibold text-brand-deep shadow-sm backdrop-blur-xl transition hover:bg-glass-strong">
-                <Navigation className="size-5" aria-hidden="true" /> Como chegar
-              </a>
-            </div>
-            <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink/60">
-              {["Delivery em Salto", "Atendimento pelo WhatsApp", "Dentro do Supermercado Delta"].map((item) => (
-                <span key={item} className="inline-flex items-center gap-1.5"><Check className="size-4 text-brand" aria-hidden="true" />{item}</span>
-              ))}
-            </div>
+        <section className="relative mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-16">
+          <div className="pointer-events-none absolute -right-32 -top-28 size-[26rem] rounded-full bg-brand/10 blur-3xl" aria-hidden="true" />
+          <p className="relative inline-flex items-center gap-2 rounded-full border border-glass-strong bg-glass px-3.5 py-1.5 text-xs font-semibold text-brand-deep shadow-sm backdrop-blur-xl">
+            <span className="size-1.5 rounded-full bg-whatsapp" aria-hidden="true" /> Farmácia local · Salto, SP
+          </p>
+          <h1 className="relative mt-6 max-w-3xl font-display text-5xl font-medium leading-[1.02] sm:text-6xl lg:text-7xl">
+            Farma Ville: sua <em className="font-medium text-brand-deep">farmácia</em> em Salto
+          </h1>
+          <p className="relative mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
+            Atendimento, praticidade e opção de delivery para você cuidar da sua saúde sem complicação.
+          </p>
+          <div className="relative mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 rounded-full bg-whatsapp px-7 py-4 font-semibold text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-whatsapp-deep">
+              <MessageCircle className="size-5" aria-hidden="true" /> Falar pelo WhatsApp
+            </a>
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 rounded-full border border-glass-strong bg-glass px-7 py-4 font-semibold text-brand-deep shadow-sm backdrop-blur-xl transition hover:bg-glass-strong">
+              <Navigation className="size-5" aria-hidden="true" /> Como chegar
+            </a>
           </div>
-
-          <div className="relative mx-auto w-full max-w-lg lg:col-span-6">
-            <div className="overflow-hidden rounded-[1.75rem] border border-glass-strong bg-glass p-2 shadow-2xl backdrop-blur-2xl">
-              <img src={pharmacyInterior} alt="Interior claro e organizado de uma farmácia" width={1104} height={1312} fetchPriority="high" className="aspect-[4/5] w-full rounded-[1.35rem] object-cover" />
-            </div>
-            <div className="absolute -bottom-5 left-2 max-w-[85%] rounded-2xl border border-glass-strong bg-glass-strong px-4 py-3 shadow-lg backdrop-blur-xl sm:-left-4 sm:bottom-10">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-mist">Endereço</p>
-              <p className="text-sm font-semibold">Dentro do Supermercado Delta</p>
-              <p className="text-xs text-ink/60">Rod. Hilário Ferrari, 2300 · Salto</p>
-            </div>
-          </div>
+          <ul className="relative mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-glass-strong pt-6 text-sm text-ink/60">
+            {["Delivery em Salto", "Atendimento pelo WhatsApp", "Dentro do Supermercado Delta"].map((item) => (
+              <li key={item} className="inline-flex items-center gap-2"><Check className="size-4 text-brand" aria-hidden="true" />{item}</li>
+            ))}
+          </ul>
         </section>
 
         <section aria-labelledby="sobre" className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:px-8 lg:grid-cols-12">
