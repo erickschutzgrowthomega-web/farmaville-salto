@@ -86,17 +86,18 @@ function Index() {
       </header>
 
       <main id="inicio">
-        <section className="mx-auto max-w-4xl px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-16">
-          <p className="inline-flex items-center gap-2 rounded-full border border-glass-strong bg-glass px-3.5 py-1.5 text-xs font-semibold text-brand-deep shadow-sm backdrop-blur-xl">
+        <section className="relative mx-auto max-w-6xl px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-16">
+          <div className="pointer-events-none absolute -right-32 -top-28 size-[26rem] rounded-full bg-brand/10 blur-3xl" aria-hidden="true" />
+          <p className="relative inline-flex items-center gap-2 rounded-full border border-glass-strong bg-glass px-3.5 py-1.5 text-xs font-semibold text-brand-deep shadow-sm backdrop-blur-xl">
             <span className="size-1.5 rounded-full bg-whatsapp" aria-hidden="true" /> Farmácia local · Salto, SP
           </p>
-          <h1 className="mt-6 max-w-2xl font-display text-5xl font-medium leading-[1.02] sm:text-6xl lg:text-7xl">
+          <h1 className="relative mt-6 max-w-3xl font-display text-5xl font-medium leading-[1.02] sm:text-6xl lg:text-7xl">
             Farma Ville: sua <em className="font-medium text-brand-deep">farmácia</em> em Salto
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
+          <p className="relative mt-6 max-w-xl text-lg leading-relaxed text-ink/70">
             Atendimento, praticidade e opção de delivery para você cuidar da sua saúde sem complicação.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="relative mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2.5 rounded-full bg-whatsapp px-7 py-4 font-semibold text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-whatsapp-deep">
               <MessageCircle className="size-5" aria-hidden="true" /> Falar pelo WhatsApp
             </a>
@@ -104,9 +105,9 @@ function Index() {
               <Navigation className="size-5" aria-hidden="true" /> Como chegar
             </a>
           </div>
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 border-t border-glass-strong pt-6 text-sm text-ink/60">
+          <ul className="relative mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-glass-strong pt-6 text-sm text-ink/60">
             {["Delivery em Salto", "Atendimento pelo WhatsApp", "Dentro do Supermercado Delta"].map((item) => (
-              <li key={item} className="inline-flex items-center gap-1.5"><Check className="size-4 text-brand" aria-hidden="true" />{item}</li>
+              <li key={item} className="inline-flex items-center gap-2"><Check className="size-4 text-brand" aria-hidden="true" />{item}</li>
             ))}
           </ul>
         </section>
