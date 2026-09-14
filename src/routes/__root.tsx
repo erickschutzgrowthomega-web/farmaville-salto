@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { ConsentGate } from "../components/consent-gate";
+import { startAnalytics, trackOutboundClicks } from "../lib/analytics";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -102,12 +104,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
       <body>
         {children}
+        <ConsentGate />
         <Scripts />
       </body>
     </html>
@@ -116,6 +119,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    startAnalytics();
+    trackOutboundClicks();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
