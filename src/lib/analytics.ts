@@ -21,7 +21,7 @@ const GOOGLE_ADS_ID =
   (import.meta.env["VITE_GOOGLE_ADS_ID"] as string | undefined)?.trim() || "AW-18438615676";
 
 /** The Google Tag Manager container. */
-const GTM_CONTAINER_ID =
+export const GTM_CONTAINER_ID =
   (import.meta.env["VITE_GTM_CONTAINER_ID"] as string | undefined)?.trim() || "GTM-K554R96K";
 
 /** The "Contato Whatsapp" conversion: a click on any WhatsApp button. */
@@ -49,6 +49,7 @@ function gtag(...args: unknown[]): void {
 let liveChoice: ConsentChoice = { ...ALL_DENIED };
 let fallbackChoice: ConsentChoice = { ...ALL_DENIED };
 let tagRequested = false;
+let gtmRequested = false;
 let started = false;
 
 function canMeasure(): boolean {
@@ -69,6 +70,18 @@ function loadTag(): void {
   document.head.appendChild(script);
 }
 
+function loadGtm(): void {
+  if (gtmRequested || !GTM_CONTAINER_ID || typeof document === "undefined") return;
+  gtmRequested = true;
+
+  dataLayer().push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_CONTAINER_ID)}`;
+  document.head.appendChild(script);
+}
+
 /**
  * Sends a measured event. Refused or undecided visitors are never counted, and
  * nothing refused earlier is replayed after a later acceptance.
@@ -81,7 +94,10 @@ export function trackEvent(name: string, params: Record<string, unknown> = {}): 
 function applyChoice(choice: ConsentChoice): void {
   liveChoice = choice;
   pushConsent(choice);
-  if (canMeasure()) loadTag();
+  if (canMeasure()) {
+    loadTag();
+    loadGtm();
+  }
 }
 
 /** Sets the deny-by-default signals, resolves the region, then loads the tag if allowed. */
