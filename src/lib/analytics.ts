@@ -129,6 +129,9 @@ export function trackOutboundClicks(): void {
         page_path: window.location.pathname,
         page_location: window.location.href,
       });
+      if (canMeasure()) {
+        window.gtag?.("event", "conversion", { send_to: WHATSAPP_CONVERSION_SEND_TO });
+      }
     },
     true,
   );
