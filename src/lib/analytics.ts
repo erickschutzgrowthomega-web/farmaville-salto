@@ -20,6 +20,9 @@ import {
 const GOOGLE_ADS_ID =
   (import.meta.env["VITE_GOOGLE_ADS_ID"] as string | undefined)?.trim() || "AW-18438615676";
 
+/** The "Contato Whatsapp" conversion: a click on any WhatsApp button. */
+const WHATSAPP_CONVERSION_SEND_TO = `${GOOGLE_ADS_ID}/mWPeCK34__ccEPzkm9hE`;
+
 type DataLayer = unknown[];
 
 declare global {
@@ -126,6 +129,9 @@ export function trackOutboundClicks(): void {
         page_path: window.location.pathname,
         page_location: window.location.href,
       });
+      if (canMeasure()) {
+        window.gtag?.("event", "conversion", { send_to: WHATSAPP_CONVERSION_SEND_TO });
+      }
     },
     true,
   );
