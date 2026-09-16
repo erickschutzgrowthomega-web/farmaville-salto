@@ -20,6 +20,10 @@ import {
 const GOOGLE_ADS_ID =
   (import.meta.env["VITE_GOOGLE_ADS_ID"] as string | undefined)?.trim() || "AW-18438615676";
 
+/** The Google Tag Manager container. */
+const GTM_CONTAINER_ID =
+  (import.meta.env["VITE_GTM_CONTAINER_ID"] as string | undefined)?.trim() || "GTM-K554R96K";
+
 /** The "Contato Whatsapp" conversion: a click on any WhatsApp button. */
 const WHATSAPP_CONVERSION_SEND_TO = `${GOOGLE_ADS_ID}/mWPeCK34__ccEPzkm9hE`;
 
