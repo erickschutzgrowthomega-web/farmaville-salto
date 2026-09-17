@@ -1,9 +1,13 @@
 /**
- * Google Tag Manager container and Google Ads tag (gtag.js) install, gated on consent.
+ * Google Tag Manager container install, gated on consent.
  *
- * Neither is fetched until the ad signals are granted: in a region that
- * requires consent, a visitor who has not accepted yet never loads them, and an
- * event that was refused is dropped rather than queued for later.
+ * The container carries the Google Ads tag and the "Contato Whatsapp"
+ * conversion, so the site itself installs nothing else: one install, one source
+ * of truth, no click counted twice.
+ *
+ * The container is never fetched until the ad signals are granted. In a region
+ * that requires consent, a visitor who has not accepted yet never loads it, and
+ * an event that was refused is dropped rather than queued for a later replay.
  */
 
 import {
@@ -16,23 +20,15 @@ import {
   type ResolvedConsent,
 } from "./consent";
 
-/** The Google Ads account that measures the campaign. */
-const GOOGLE_ADS_ID =
-  (import.meta.env["VITE_GOOGLE_ADS_ID"] as string | undefined)?.trim() || "AW-18438615676";
-
-/** The Google Tag Manager container. */
-export const GTM_CONTAINER_ID =
+/** The Google Tag Manager container that holds the campaign's tags. */
+const GTM_CONTAINER_ID =
   (import.meta.env["VITE_GTM_CONTAINER_ID"] as string | undefined)?.trim() || "GTM-K554R96K";
-
-/** The "Contato Whatsapp" conversion: a click on any WhatsApp button. */
-const WHATSAPP_CONVERSION_SEND_TO = `${GOOGLE_ADS_ID}/mWPeCK34__ccEPzkm9hE`;
 
 type DataLayer = unknown[];
 
 declare global {
   interface Window {
     dataLayer?: DataLayer;
-    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -40,16 +36,9 @@ function dataLayer(): DataLayer {
   return (window.dataLayer ??= []);
 }
 
-/** The official gtag stub: queues calls in the data layer until the library loads. */
-function gtag(...args: unknown[]): void {
-  // eslint-disable-next-line prefer-rest-params
-  dataLayer().push(args);
-}
-
 let liveChoice: ConsentChoice = { ...ALL_DENIED };
 let fallbackChoice: ConsentChoice = { ...ALL_DENIED };
-let tagRequested = false;
-let gtmRequested = false;
+let containerRequested = false;
 let started = false;
 
 function canMeasure(): boolean {
@@ -57,9 +46,9 @@ function canMeasure(): boolean {
 }
 
 /** The official Tag Manager install: starts the container and loads gtm.js. */
-function loadGtm(): void {
-  if (gtmRequested || !GTM_CONTAINER_ID || typeof document === "undefined") return;
-  gtmRequested = true;
+function loadContainer(): void {
+  if (containerRequested || !GTM_CONTAINER_ID || typeof document === "undefined") return;
+  containerRequested = true;
 
   dataLayer().push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
 
@@ -72,58 +61,27 @@ function loadGtm(): void {
   else document.head.appendChild(script);
 }
 
-function loadTag(): void {
-  if (tagRequested || !GOOGLE_ADS_ID || typeof document === "undefined") return;
-  tagRequested = true;
-
-  loadGtm();
-
-  window.gtag = window.gtag ?? gtag;
-  window.gtag("js", new Date());
-  window.gtag("config", GOOGLE_ADS_ID);
-
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ADS_ID)}`;
-  document.head.appendChild(script);
-}
-
-function loadGtm(): void {
-  if (gtmRequested || !GTM_CONTAINER_ID || typeof document === "undefined") return;
-  gtmRequested = true;
-
-  dataLayer().push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-
-  const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_CONTAINER_ID)}`;
-  document.head.appendChild(script);
-}
-
 /**
- * Sends a measured event. Refused or undecided visitors are never counted, and
- * nothing refused earlier is replayed after a later acceptance.
+ * Sends a measured event to the container. Refused or undecided visitors are
+ * never counted, and nothing refused earlier is replayed after a later
+ * acceptance.
  */
 export function trackEvent(name: string, params: Record<string, unknown> = {}): void {
   if (typeof window === "undefined" || !canMeasure()) return;
-  window.gtag?.("event", name, params);
+  dataLayer().push({ event: name, ...params });
 }
 
 function applyChoice(choice: ConsentChoice): void {
   liveChoice = choice;
   pushConsent(choice);
-  if (canMeasure()) {
-    loadTag();
-    loadGtm();
-  }
+  if (canMeasure()) loadContainer();
 }
 
-/** Sets the deny-by-default signals, resolves the region, then loads the tag if allowed. */
+/** Sets the deny-by-default signals, resolves the region, then loads the container if allowed. */
 export async function startAnalytics(): Promise<void> {
   if (started || typeof window === "undefined") return;
   started = true;
 
-  window.gtag = window.gtag ?? gtag;
   pushConsent(liveChoice);
 
   let resolved: ResolvedConsent;
@@ -146,7 +104,7 @@ export async function startAnalytics(): Promise<void> {
 
 /**
  * Reports every click on a WhatsApp button as a `whatsapp_click` event, so the
- * tag can send it to the campaign without touching each link.
+ * container can react to it without touching each link.
  */
 export function trackOutboundClicks(): void {
   if (typeof document === "undefined") return;
@@ -167,9 +125,6 @@ export function trackOutboundClicks(): void {
         page_path: window.location.pathname,
         page_location: window.location.href,
       });
-      if (canMeasure()) {
-        window.gtag?.("event", "conversion", { send_to: WHATSAPP_CONVERSION_SEND_TO });
-      }
     },
     true,
   );

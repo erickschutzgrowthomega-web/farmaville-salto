@@ -55,8 +55,8 @@ function Privacy() {
             <h2 className="font-display text-xl font-semibold text-ink">Quem recebe esses dados</h2>
             <p className="mt-2">
               As informações de navegação desta página vão para o <strong>Google</strong>, por meio
-              do <strong>Google Tag Manager</strong> e da <strong>etiqueta do Google Ads</strong>, e
-              são usadas para duas finalidades:{" "}
+              do <strong>Google Tag Manager</strong> (que carrega a <strong>etiqueta do Google
+              Ads</strong>), e são usadas para duas finalidades:{" "}
               <strong>medir o desempenho das campanhas de anúncio</strong> (quantas pessoas clicaram
               em falar com a farmácia) e <strong>otimizar esses anúncios</strong>. Cada plataforma
               trata os dados segundo a sua própria política de privacidade.
