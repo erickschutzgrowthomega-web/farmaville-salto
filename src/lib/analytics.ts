@@ -49,15 +49,34 @@ function gtag(...args: unknown[]): void {
 let liveChoice: ConsentChoice = { ...ALL_DENIED };
 let fallbackChoice: ConsentChoice = { ...ALL_DENIED };
 let tagRequested = false;
+let gtmRequested = false;
 let started = false;
 
 function canMeasure(): boolean {
   return liveChoice.ad_storage === "granted";
 }
 
+/** The official Tag Manager install: starts the container and loads gtm.js. */
+function loadGtm(): void {
+  if (gtmRequested || !GTM_CONTAINER_ID || typeof document === "undefined") return;
+  gtmRequested = true;
+
+  dataLayer().push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(GTM_CONTAINER_ID)}`;
+
+  const firstScript = document.head.querySelector("script");
+  if (firstScript?.parentNode) firstScript.parentNode.insertBefore(script, firstScript);
+  else document.head.appendChild(script);
+}
+
 function loadTag(): void {
   if (tagRequested || !GOOGLE_ADS_ID || typeof document === "undefined") return;
   tagRequested = true;
+
+  loadGtm();
 
   window.gtag = window.gtag ?? gtag;
   window.gtag("js", new Date());
