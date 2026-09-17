@@ -1,8 +1,8 @@
 /**
- * Google Ads tag (gtag.js) install, gated on consent.
+ * Google Tag Manager container and Google Ads tag (gtag.js) install, gated on consent.
  *
- * The tag is only fetched once the ad signals are granted: in a region that
- * requires consent, a visitor who has not accepted yet never loads it, and an
+ * Neither is fetched until the ad signals are granted: in a region that
+ * requires consent, a visitor who has not accepted yet never loads them, and an
  * event that was refused is dropped rather than queued for later.
  */
 
