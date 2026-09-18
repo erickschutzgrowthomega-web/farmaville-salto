@@ -21,3 +21,6 @@
 
 ## Próximo passo
 - Publicar de novo para que estas alterações entrem no ar em https://farmaville-salto.lovable.app (aguardando autorização)
+
+## Cancelado
+- [x] Adição de vermelho ao site cancelada a pedido do usuário; nenhuma alteração visual aplicada
