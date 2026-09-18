@@ -182,7 +182,7 @@ function Index() {
               height={1200}
               loading="lazy"
               decoding="async"
-              className="aspect-[4/3] w-full rounded-2xl border border-glass-strong object-cover object-top shadow-sm sm:aspect-[16/10] lg:aspect-[2/3]"
+              className="aspect-[4/3] w-full rounded-2xl border border-glass-strong object-cover object-top shadow-sm sm:aspect-[16/10] lg:aspect-auto lg:h-full"
             />
             <div className="grid gap-4">
               <img
