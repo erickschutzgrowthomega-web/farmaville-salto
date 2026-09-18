@@ -71,6 +71,7 @@
   --color-mist: var(--mist);
   --color-glass: var(--glass);
   --color-glass-strong: var(--glass-strong);
+  --color-star: var(--star);
 }
 
 :root {
